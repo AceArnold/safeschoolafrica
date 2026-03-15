@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SafeSchool Africa — Staff Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/staff-dashboard.css" />
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav class="navbar">
+  <a href="staff-dashboard.html" class="navbar-brand">
+    <div class="navbar-logo">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2L4 6v6c0 5.25 3.5 10.15 8 11.35C16.5 22.15 20 17.25 20 12V6l-8-4z" fill="white"/>
+      </svg>
+    </div>
+    <span class="navbar-title">SafeSchool Africa</span>
+  </a>
+  <ul class="navbar-nav">
+    <li><a href="staff-dashboard.html" class="active">Dashboard</a></li>
+    <li><a href="analytics.html">Analytics</a></li>
+  </ul>
+  <div style="display:flex; align-items:center; gap:12px;">
+    <span style="color:#888780; font-size:13px;"><span id="nav-name"></span></span>
+    <button id="logout-btn" class="btn btn-ghost" style="padding:6px 14px; font-size:12px; border-color:#3d3d3d; color:#888780;">Sign out</button>
+  </div>
+</nav>
+
+<!-- ── DASHBOARD ── -->
+<div class="dashboard-page">
+  <div class="dashboard-container">
+
+    <!-- Header -->
+    <div class="dashboard-header">
+      <div>
+        <h2>Safeguarding Dashboard</h2>
+        <p>Review and manage all reported incidents</p>
+      </div>
+    </div>
+
+    <!-- Stats row -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-icon stat-icon-total">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke="#64748b" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <p>Total cases</p>
+          <strong id="stat-total">0</strong>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon stat-icon-urgent">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="#991b1b" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <p>Urgent</p>
+          <strong id="stat-urgent" style="color:var(--red);">0</strong>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon stat-icon-progress">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83" stroke="#b45309" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <p>In progress</p>
+          <strong id="stat-progress" style="color:#b45309;">0</strong>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon stat-icon-resolved">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14M22 4L12 14.01l-3-3" stroke="#15803d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <p>Resolved</p>
+          <strong id="stat-resolved" style="color:var(--green);">0</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filters + search -->
+    <div class="filters-row">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="new">New</button>
+      <button class="filter-btn" data-filter="urgent">Urgent</button>
+      <button class="filter-btn" data-filter="in-progress">In Progress</button>
+      <button class="filter-btn" data-filter="escalated">Escalated</button>
+      <button class="filter-btn" data-filter="resolved">Resolved</button>
+      <div class="search-input-wrap">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <path d="M21 21l-4.35-4.35M17 11A6 6 0 111 11a6 6 0 0116 0z" stroke="#888780" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <input type="text" id="search-input" class="search-input" placeholder="Search cases..." />
+      </div>
+    </div>
+
+    <!-- Cases table -->
+    <div class="cases-card">
+      <table class="cases-table">
+        <thead>
+          <tr>
+            <th>Case ID</th>
+            <th>Category</th>
+            <th>Reported by</th>
+            <th>Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="cases-tbody"></tbody>
+      </table>
+      <div id="empty-state" class="empty-state hidden">
+        <p>No cases found matching your filters.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── CASE DETAIL MODAL ── -->
+<div id="modal-overlay" class="modal-overlay hidden">
+  <div class="modal">
+
+    <div class="modal-header">
+      <div>
+        <h3>Case <span id="modal-id"></span></h3>
+        <p style="font-size:12px; color:var(--text-muted); margin-top:2px;">Click a row to open case details</p>
+      </div>
+      <button class="modal-close" id="modal-close">✕</button>
+    </div>
+
+    <div class="modal-body">
+
+      <div class="modal-meta">
+        <div class="modal-field">
+          <span class="label">Category</span>
+          <p id="modal-category"></p>
+        </div>
+        <div class="modal-field">
+          <span class="label">Reported by</span>
+          <p id="modal-student"></p>
+        </div>
+        <div class="modal-field">
+          <span class="label">Date reported</span>
+          <p id="modal-date"></p>
+        </div>
+        <div class="modal-field">
+          <span class="label">Location / Platform</span>
+          <p id="modal-location"></p>
+        </div>
+        <div class="modal-field">
+          <span class="label">Urgent</span>
+          <p id="modal-urgent"></p>
+        </div>
+        <div class="modal-field">
+          <span class="label">Anonymity</span>
+          <p id="modal-anon"></p>
+        </div>
+      </div>
+
+      <div class="modal-field">
+        <span class="label">Description</span>
+        <div class="modal-desc" id="modal-desc"></div>
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span class="label" style="margin:0;">Update status</span>
+        <select id="status-select" class="status-select">
+          <option value="new">New</option>
+          <option value="in-progress">In Progress</option>
+          <option value="escalated">Escalated</option>
+          <option value="resolved">Resolved</option>
+        </select>
+      </div>
+      <button id="update-btn" class="btn btn-primary" style="padding:8px 20px;">Save changes</button>
+    </div>
+
+  </div>
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/staff-dashboard.js"></script>
+</body>
+</html>

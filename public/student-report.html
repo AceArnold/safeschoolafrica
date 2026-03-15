@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SafeSchool Africa — Report an Incident</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/student-report.css" />
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav class="navbar">
+  <a href="student-report.html" class="navbar-brand">
+    <div class="navbar-logo">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2L4 6v6c0 5.25 3.5 10.15 8 11.35C16.5 22.15 20 17.25 20 12V6l-8-4z" fill="white"/>
+      </svg>
+    </div>
+    <span class="navbar-title">SafeSchool Africa</span>
+  </a>
+  <div style="display:flex; align-items:center; gap:16px;">
+    <span style="color:#888780; font-size:13px;">Hello, <span id="nav-name" style="color:#f5f5f4; font-weight:600;"></span></span>
+    <button id="logout-btn" class="btn btn-ghost" style="padding:6px 14px; font-size:12px; border-color:#3d3d3d; color:#888780;">Sign out</button>
+  </div>
+</nav>
+
+<!-- ── REPORT SCREEN ── -->
+<div id="report-screen" class="report-page">
+  <div class="report-container">
+
+    <!-- Header -->
+    <div class="report-header">
+      <h2>Report an incident</h2>
+      <p>Your report is confidential. You can choose to stay anonymous.</p>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+
+    <form id="report-form">
+
+      <!-- Step 1: Category -->
+      <div class="form-card">
+        <div class="field">
+          <label class="label">What type of incident are you reporting?</label>
+          <div class="category-grid">
+
+            <button type="button" class="category-btn" data-category="Cyberbullying">
+              <div class="category-icon">💬</div>
+              <span class="category-name">Cyberbullying</span>
+            </button>
+
+            <button type="button" class="category-btn" data-category="Grooming">
+              <div class="category-icon">⚠️</div>
+              <span class="category-name">Grooming</span>
+            </button>
+
+            <button type="button" class="category-btn" data-category="Harassment">
+              <div class="category-icon">🚫</div>
+              <span class="category-name">Harassment</span>
+            </button>
+
+            <button type="button" class="category-btn" data-category="Inappropriate content">
+              <div class="category-icon">📵</div>
+              <span class="category-name">Inappropriate content</span>
+            </button>
+
+            <button type="button" class="category-btn" data-category="Threats">
+              <div class="category-icon">🔴</div>
+              <span class="category-name">Threats</span>
+            </button>
+
+            <button type="button" class="category-btn" data-category="Other">
+              <div class="category-icon">📋</div>
+              <span class="category-name">Other</span>
+            </button>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Description -->
+      <div class="form-card">
+        <div class="field">
+          <label class="label" for="description">Describe what happened</label>
+          <textarea
+            id="description"
+            class="textarea"
+            placeholder="Tell us what happened in as much detail as you feel comfortable sharing. The more detail you provide, the better we can help."
+            rows="6"
+          ></textarea>
+          <div class="char-counter" id="char-counter">0 / 1000</div>
+        </div>
+
+        <div class="field">
+          <label class="label">When did this happen?</label>
+          <input type="date" id="incident-date" class="input" />
+        </div>
+
+        <div class="field">
+          <label class="label">Where did it happen? <span style="font-weight:400; text-transform:none; letter-spacing:0; color:var(--text-muted);">(optional)</span></label>
+          <input type="text" id="location" class="input" placeholder="e.g. WhatsApp, school playground, Instagram..." />
+        </div>
+      </div>
+
+      <!-- Step 3: Options -->
+      <div class="form-card">
+
+        <!-- Anonymous toggle -->
+        <div class="field">
+          <div class="toggle-field" id="anon-field">
+            <div class="toggle-info">
+              <h3>Stay anonymous</h3>
+              <p id="anon-label">Your name will be visible to staff</p>
+            </div>
+            <button type="button" class="toggle-switch" id="anon-toggle" aria-label="Toggle anonymous"></button>
+          </div>
+        </div>
+
+        <!-- Urgent toggle -->
+        <div class="field">
+          <div class="toggle-field" id="urgent-field">
+            <div class="toggle-info">
+              <h3>Mark as urgent</h3>
+              <p id="urgent-label">Mark as urgent if you are in immediate danger</p>
+            </div>
+            <button type="button" class="toggle-switch" id="urgent-toggle" aria-label="Toggle urgent"></button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Submit -->
+      <div class="submit-section">
+        <p class="submit-note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          All reports are handled confidentially
+        </p>
+        <button type="submit" id="submit-btn" class="btn btn-primary" style="padding: 12px 32px;">
+          Submit report
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<!-- ── SUCCESS SCREEN ── -->
+<div id="success-screen" class="success-screen hidden">
+  <div class="success-card">
+
+    <div class="success-icon">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+        <path d="M22 11.08V12a10 10 0 11-5.93-9.14" stroke="#15803d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M22 4L12 14.01l-3-3" stroke="#15803d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <h2>Report submitted</h2>
+    <p id="success-msg">Your report has been received and will be reviewed by our safeguarding team. You are not alone — we are here to help.</p>
+
+    <div class="case-id-box">
+      <span>Your case reference</span>
+      <strong id="case-id"></strong>
+    </div>
+
+    <div class="success-actions">
+      <button id="another-btn" class="btn btn-outline btn-full">Submit another report</button>
+      <a href="login.html" class="btn btn-ghost btn-full" onclick="Auth.logout(); return false;">Sign out</a>
+    </div>
+
+  </div>
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/student-report.js"></script>
+</body>
+</html>

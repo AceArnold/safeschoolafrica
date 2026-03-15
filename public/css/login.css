@@ -1,0 +1,160 @@
+.login-page {
+  min-height: 100vh;
+  background: var(--black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.login-card {
+  background: var(--black-mid);
+  border: 1px solid var(--black-light);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 400px;
+  padding: 2.5rem 2rem;
+  animation: fadeUp 0.3s ease;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.login-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 2rem;
+}
+
+.login-logo {
+  width: 44px;
+  height: 44px;
+  background: var(--red);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.login-brand-text h1 {
+  color: #f5f5f4;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  margin-bottom: 2px;
+}
+
+.login-brand-text p {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 0;
+}
+
+.login-form .field {
+  margin-bottom: 1.25rem;
+}
+
+.login-form .label {
+  color: var(--muted);
+}
+
+.login-form .input {
+  background: var(--black);
+  border-color: var(--black-light);
+  color: #f5f5f4;
+}
+
+.login-form .input::placeholder {
+  color: #555;
+}
+
+.login-form .input:focus {
+  border-color: var(--red);
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 15px;
+  padding: 4px;
+  line-height: 1;
+}
+
+.login-divider {
+  height: 1px;
+  background: var(--black-light);
+  margin: 1.5rem 0;
+}
+
+.demo-accounts p {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.demo-account-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: var(--black);
+  border: 1px solid var(--black-light);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  cursor: pointer;
+  margin-bottom: 6px;
+  transition: border-color 0.15s;
+}
+
+.demo-account-btn:last-child {
+  margin-bottom: 0;
+}
+
+.demo-account-btn:hover {
+  border-color: var(--red);
+}
+
+.demo-account-btn span:first-child {
+  color: #f5f5f4;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.demo-role {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  letter-spacing: 0.03em;
+}
+
+.demo-role-student { background: #1e3a5f; color: #93c5fd; }
+.demo-role-staff   { background: #3b1d1d; color: #fca5a5; }
+.demo-role-admin   { background: #1a2e1a; color: #86efac; }
+
+.login-footer {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.login-footer p {
+  color: var(--muted);
+  font-size: 12px;
+}

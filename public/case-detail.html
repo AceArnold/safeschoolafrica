@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SafeSchool Africa — Case Detail</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/case-detail.css" />
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav class="navbar">
+  <a href="staff-dashboard.html" class="navbar-brand">
+    <div class="navbar-logo">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2L4 6v6c0 5.25 3.5 10.15 8 11.35C16.5 22.15 20 17.25 20 12V6l-8-4z" fill="white"/>
+      </svg>
+    </div>
+    <span class="navbar-title">SafeSchool Africa</span>
+  </a>
+  <ul class="navbar-nav">
+    <li><a href="staff-dashboard.html" class="active">Dashboard</a></li>
+    <li><a href="analytics.html">Analytics</a></li>
+  </ul>
+  <div style="display:flex; align-items:center; gap:12px;">
+    <span style="color:#888780; font-size:13px;"><span id="nav-name"></span></span>
+    <button id="logout-btn" class="btn btn-ghost" style="padding:6px 14px; font-size:12px; border-color:#3d3d3d; color:#888780;">Sign out</button>
+  </div>
+</nav>
+
+<!-- ── MAIN ── -->
+<div class="case-detail-page">
+  <div class="case-detail-container">
+
+    <!-- Back link -->
+    <a href="staff-dashboard.html" class="back-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+        <path d="M19 12H5M12 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Back to dashboard
+    </a>
+
+    <!-- Not found state -->
+    <div id="not-found" class="not-found hidden">
+      <h2>Case not found</h2>
+      <p>This case does not exist or may have been removed.</p>
+      <a href="staff-dashboard.html" class="btn btn-primary">Back to dashboard</a>
+    </div>
+
+    <!-- Case content -->
+    <div id="case-main">
+
+      <!-- Case header -->
+      <div class="case-header">
+        <div class="case-header-left">
+          <h2 id="case-id-title"></h2>
+          <div class="case-meta">
+            <span class="case-meta-item">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                <path d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <span id="case-category"></span>
+            </span>
+            <span class="case-meta-item">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <span id="case-student"></span>
+            </span>
+            <span class="case-meta-item">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <span id="case-date"></span>
+            </span>
+          </div>
+        </div>
+        <div class="case-header-right">
+          <span id="case-status-badge" class="badge badge-new">New</span>
+          <span id="urgent-flag" class="urgent-flag hidden">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+              <path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            Urgent
+          </span>
+        </div>
+      </div>
+
+      <!-- Two column grid -->
+      <div class="case-grid">
+
+        <!-- Left column -->
+        <div>
+
+          <!-- Description -->
+          <div class="detail-card">
+            <div class="detail-card-header">
+              <h3>Incident description</h3>
+            </div>
+            <div class="detail-card-body">
+              <p class="description-text" id="case-description"></p>
+            </div>
+          </div>
+
+          <!-- Details -->
+          <div class="detail-card">
+            <div class="detail-card-header">
+              <h3>Case details</h3>
+            </div>
+            <div class="detail-card-body">
+              <div class="info-grid">
+                <div class="info-item">
+                  <span class="label">Location / Platform</span>
+                  <p id="case-location"></p>
+                </div>
+                <div class="info-item">
+                  <span class="label">Anonymity</span>
+                  <p id="case-anon"></p>
+                </div>
+                <div class="info-item">
+                  <span class="label">Platform</span>
+                  <p id="case-platform"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Audit trail -->
+          <div class="detail-card">
+            <div class="detail-card-header">
+              <h3>Audit trail</h3>
+            </div>
+            <div class="detail-card-body">
+              <div class="audit-trail" id="audit-trail"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right column -->
+        <div>
+
+          <!-- Status update -->
+          <div class="detail-card">
+            <div class="detail-card-header">
+              <h3>Update case</h3>
+            </div>
+            <div class="detail-card-body">
+              <div class="status-form">
+                <div>
+                  <span class="label">Status</span>
+                  <select id="status-select">
+                    <option value="new">New</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="escalated">Escalated</option>
+                    <option value="resolved">Resolved</option>
+                  </select>
+                </div>
+                <div>
+                  <span class="label">Add a note</span>
+                  <textarea id="staff-note" placeholder="Add notes, actions taken, or observations..."></textarea>
+                </div>
+                <button id="update-btn" class="btn btn-primary btn-full">Save changes</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Safeguarding checklist -->
+          <div class="detail-card">
+            <div class="detail-card-header">
+              <h3>Safeguarding checklist</h3>
+              <span class="checklist-progress" id="checklist-progress">0 / 9</span>
+            </div>
+            <div class="detail-card-body">
+              <div class="checklist" id="checklist"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/case-detail.js"></script>
+</body>
+</html>

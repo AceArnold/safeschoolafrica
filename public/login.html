@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SafeSchool Africa — Sign In</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/login.css" />
+</head>
+<body>
+
+<div class="login-page">
+  <div class="login-card">
+
+    <!-- Brand -->
+    <div class="login-brand">
+      <div class="login-logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2L4 6v6c0 5.25 3.5 10.15 8 11.35C16.5 22.15 20 17.25 20 12V6l-8-4z" fill="white"/>
+        </svg>
+      </div>
+      <div class="login-brand-text">
+        <h1>SafeSchool Africa</h1>
+        <p>Protecting learners, one report at a time</p>
+      </div>
+    </div>
+
+    <!-- Error box -->
+    <div id="error-box" class="alert alert-error hidden">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+        <path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span id="error-msg"></span>
+    </div>
+
+    <!-- Form -->
+    <form id="login-form" class="login-form">
+
+      <div class="field">
+        <label class="label" for="email">Email address</label>
+        <input
+          id="email"
+          type="email"
+          class="input"
+          placeholder="you@school.ac.rw"
+          required
+          autocomplete="email"
+        />
+      </div>
+
+      <div class="field">
+        <label class="label" for="password">Password</label>
+        <div class="password-wrapper">
+          <input
+            id="password"
+            type="password"
+            class="input"
+            placeholder="••••••••"
+            required
+            autocomplete="current-password"
+          />
+          <button type="button" id="toggle-password" class="password-toggle">👁️</button>
+        </div>
+      </div>
+
+      <button type="submit" id="submit-btn" class="btn btn-primary btn-full" style="margin-top: 0.5rem;">
+        Sign in
+      </button>
+
+    </form>
+
+    <!-- Divider -->
+    <div class="login-divider"></div>
+
+    <!-- Demo accounts -->
+    <div class="demo-accounts">
+      <p>Test accounts — click to fill</p>
+
+      <button class="demo-account-btn" data-email="student@test.com" data-pass="Test1234!">
+        <span>student@test.com</span>
+        <span class="demo-role demo-role-student">Student</span>
+      </button>
+
+      <button class="demo-account-btn" data-email="staff@test.com" data-pass="Test1234!">
+        <span>staff@test.com</span>
+        <span class="demo-role demo-role-staff">Staff</span>
+      </button>
+
+      <button class="demo-account-btn" data-email="admin@test.com" data-pass="Test1234!">
+        <span>admin@test.com</span>
+        <span class="demo-role demo-role-admin">Admin</span>
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <div class="login-footer">
+      <p>🔒 Your information is confidential and secure</p>
+    </div>
+
+  </div>
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/login.js"></script>
+</body>
+</html>
