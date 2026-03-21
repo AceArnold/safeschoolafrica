@@ -11,18 +11,12 @@ async function getDb() {
 
   const SQL = await initSqlJs()
 
-  if (fs.existsSync(DB_PATH)) {
-    const fileBuffer = fs.readFileSync(DB_PATH)
-    db = new SQL.Database(fileBuffer)
-  } else {
     db = new SQL.Database()
     createTables()
     seedData()
-    saveDb()
-  }
 
-  return db
-}
+    return db
+    }
 
 function saveDb() {
   const data = db.export()
