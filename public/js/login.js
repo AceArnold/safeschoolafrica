@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  // If already logged in, skip login and go straight to their page
+  // If already logged in, skip login
   const session = Auth.getSession()
   if (session) Auth.redirectByRole(session.role)
 
@@ -20,24 +20,21 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   // Handle form submit
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault()
     errorBox.classList.add('hidden')
     submitBtn.disabled = true
     submitBtn.innerHTML = '<span class="spinner"></span> Signing in...'
 
-    // Small delay for UX feel
-    setTimeout(() => {
-      try {
-        const session = Auth.login(emailIn.value.trim(), passIn.value)
-        Auth.redirectByRole(session.role)
-      } catch (err) {
-        errorMsg.textContent = err.message
-        errorBox.classList.remove('hidden')
-        submitBtn.disabled = false
-        submitBtn.textContent = 'Sign in'
-      }
-    }, 600)
+    try {
+      const session = await Auth.login(emailIn.value.trim(), passIn.value)
+      Auth.redirectByRole(session.role)
+    } catch (err) {
+      errorMsg.textContent = err.message
+      errorBox.classList.remove('hidden')
+      submitBtn.disabled = false
+      submitBtn.textContent = 'Sign in'
+    }
   })
 
   // Demo account quick-fill buttons
@@ -48,5 +45,4 @@ document.addEventListener('DOMContentLoaded', () => {
       emailIn.focus()
     })
   })
-
 })

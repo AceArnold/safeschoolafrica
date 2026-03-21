@@ -1,50 +1,32 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const session = Auth.requireAuth(['admin', 'staff'])
   if (!session) return
 
   document.getElementById('nav-name').textContent = session.name
   document.getElementById('logout-btn').addEventListener('click', () => Auth.logout())
 
-  // ── Load data ──
-  const reports = JSON.parse(localStorage.getItem('ssa_reports') || '[]')
-
-  const total    = reports.length
-  const resolved = reports.filter(r => r.status === 'resolved').length
-  const urgent   = reports.filter(r => r.urgent).length
-  const resRate  = total > 0 ? Math.round((resolved / total) * 100) : 0
-
-  document.getElementById('stat-total').textContent   = total
-  document.getElementById('stat-resolved').textContent = resolved
-  document.getElementById('stat-urgent').textContent  = urgent
-  document.getElementById('stat-rate').textContent    = resRate + '%'
-
-  // ── Category counts ──
-  const categories = ['Cyberbullying', 'Grooming', 'Harassment', 'Inappropriate content', 'Threats', 'Other']
-  const catCounts  = categories.map(c => reports.filter(r => r.category === c).length)
-
-  // ── Status counts ──
-  const statusLabels = ['New', 'In Progress', 'Escalated', 'Resolved']
-  const statusCounts = [
-    reports.filter(r => r.status === 'new').length,
-    reports.filter(r => r.status === 'in-progress').length,
-    reports.filter(r => r.status === 'escalated').length,
-    reports.filter(r => r.status === 'resolved').length,
-  ]
-
-  // ── Monthly trend (last 6 months) ──
-  const months = []
-  const monthlyCounts = []
-  for (let i = 5; i >= 0; i--) {
-    const d = new Date()
-    d.setMonth(d.getMonth() - i)
-    const label = d.toLocaleString('default', { month: 'short' })
-    const count = reports.filter(r => {
-      const rd = new Date(r.date)
-      return rd.getMonth() === d.getMonth() && rd.getFullYear() === d.getFullYear()
-    }).length
-    months.push(label)
-    monthlyCounts.push(count)
+  // ── Load analytics from API ──
+  let data
+  try {
+    const res = await fetch('/api/analytics')
+    data = await res.json()
+  } catch (err) {
+    console.error('Failed to load analytics:', err)
+    return
   }
+
+  const { total, resolved, urgent, resRate, categories, catCounts, statusCounts, monthly } = data
+
+  document.getElementById('stat-total').textContent    = total
+  document.getElementById('stat-resolved').textContent = resolved
+  document.getElementById('stat-urgent').textContent   = urgent
+  document.getElementById('stat-rate').textContent     = resRate + '%'
+
+  const months       = monthly.map(m => m.label)
+  const monthlyCounts = monthly.map(m => m.count)
+
+  const statusLabels = ['New', 'In Progress', 'Escalated', 'Resolved']
+  const statusValues = [statusCounts.new, statusCounts.inProgress, statusCounts.escalated, statusCounts.resolved]
 
   // ── Chart defaults ──
   Chart.defaults.font.family = "'Inter', system-ui, sans-serif"
@@ -73,14 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
       maintainAspectRatio: false,
       plugins: { legend: { display: false } },
       scales: {
-        y: {
-          beginAtZero: true,
-          ticks: { stepSize: 1 },
-          grid: { color: '#f5f5f4' },
-        },
-        x: {
-          grid: { display: false },
-        }
+        y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: '#f5f5f4' } },
+        x: { grid: { display: false } }
       }
     }
   })
@@ -107,23 +83,19 @@ document.addEventListener('DOMContentLoaded', () => {
       maintainAspectRatio: false,
       plugins: { legend: { display: false } },
       scales: {
-        y: {
-          beginAtZero: true,
-          ticks: { stepSize: 1 },
-          grid: { color: '#f5f5f4' },
-        },
+        y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: '#f5f5f4' } },
         x: { grid: { display: false } }
       }
     }
   })
 
-  // ── Doughnut chart — status breakdown ──
+  // ── Doughnut — status breakdown ──
   new Chart(document.getElementById('status-chart'), {
     type: 'doughnut',
     data: {
       labels: statusLabels,
       datasets: [{
-        data: statusCounts,
+        data: statusValues,
         backgroundColor: ['#e5e7eb', '#fef08a', '#fecaca', '#bbf7d0'],
         borderColor:     ['#d1d5db', '#eab308', '#991b1b', '#15803d'],
         borderWidth: 2,

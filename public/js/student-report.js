@@ -2,17 +2,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const session = Auth.requireAuth(['student'])
   if (!session) return
 
-  // Set user name in nav
-    if (document.getElementById('nav-name')) document.getElementById('nav-name').textContent = session.name
-    if (document.getElementById('nav-initials')) document.getElementById('nav-initials').textContent = Auth.getInitials(session.name)
+  if (document.getElementById('nav-name'))     document.getElementById('nav-name').textContent     = session.name
+  if (document.getElementById('nav-initials')) document.getElementById('nav-initials').textContent = Auth.getInitials(session.name)
 
-  // Logout
   document.getElementById('logout-btn').addEventListener('click', () => Auth.logout())
 
   // ── State ──
   let selectedCategory = ''
   let isAnonymous = false
-  let isUrgent = false
+  let isUrgent    = false
 
   // ── Category selection ──
   document.querySelectorAll('.category-btn').forEach(btn => {
@@ -59,13 +57,12 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateProgress() {
     const hasCategory = selectedCategory !== ''
     const hasDesc     = descTA.value.trim().length > 20
-    const steps       = [hasCategory, hasDesc]
-    const pct         = (steps.filter(Boolean).length / steps.length) * 100
+    const pct         = ([hasCategory, hasDesc].filter(Boolean).length / 2) * 100
     document.getElementById('progress-fill').style.width = pct + '%'
   }
 
   // ── Form submit ──
-  document.getElementById('report-form').addEventListener('submit', (e) => {
+  document.getElementById('report-form').addEventListener('submit', async (e) => {
     e.preventDefault()
 
     if (!selectedCategory) {
@@ -78,7 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
       alert('Please provide more detail — at least 20 characters.')
       return
     }
-
     if (description.length > MAX) {
       alert(`Description is too long. Maximum ${MAX} characters.`)
       return
@@ -88,27 +84,29 @@ document.addEventListener('DOMContentLoaded', () => {
     submitBtn.disabled = true
     submitBtn.innerHTML = '<span class="spinner"></span> Submitting...'
 
-    // Build report object
-    const report = {
-      id:          'SSA-' + Date.now(),
-      studentId:   isAnonymous ? 'anonymous' : session.id,
-      studentName: isAnonymous ? 'Anonymous' : session.name,
-      category:    selectedCategory,
-      description: description,
-      urgent:      isUrgent,
-      anonymous:   isAnonymous,
-      status:      'new',
-      date:        new Date().toISOString(),
+    try {
+      const res = await fetch('/api/reports', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          studentId:   isAnonymous ? 'anonymous' : session.id,
+          studentName: isAnonymous ? 'Anonymous' : session.name,
+          category:    selectedCategory,
+          description,
+          urgent:    isUrgent,
+          anonymous: isAnonymous,
+        })
+      })
+
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Submission failed.')
+
+      showSuccess(data.id, isUrgent)
+    } catch (err) {
+      alert('Error submitting report: ' + err.message)
+      submitBtn.disabled = false
+      submitBtn.textContent = 'Submit report'
     }
-
-    // Save to localStorage (swap for API call later)
-    const reports = JSON.parse(localStorage.getItem('ssa_reports') || '[]')
-    reports.push(report)
-    localStorage.setItem('ssa_reports', JSON.stringify(reports))
-
-    setTimeout(() => {
-      showSuccess(report.id, isUrgent)
-    }, 800)
   })
 
   // ── Success screen ──
@@ -123,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // ── Another report button ──
+  // ── Another report ──
   document.getElementById('another-btn').addEventListener('click', () => {
     window.location.reload()
   })
