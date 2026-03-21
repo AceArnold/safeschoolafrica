@@ -15,7 +15,7 @@ const Auth = {
 
   logout() {
     localStorage.removeItem('ssa_session')
-    window.location.href = '/login.html'
+    window.location.href = 'login.html'
   },
 
   getSession() {
@@ -26,7 +26,7 @@ const Auth = {
   requireAuth(allowedRoles = []) {
     const session = this.getSession()
     if (!session) {
-      window.location.href = '/login.html'
+      window.location.href = 'login.html'
       return null
     }
     if (allowedRoles.length > 0 && !allowedRoles.includes(session.role)) {
@@ -37,9 +37,9 @@ const Auth = {
   },
 
   redirectByRole(role) {
-    if (role === 'student') window.location.href = '/student-report.html'
-    if (role === 'staff')   window.location.href = '/staff-dashboard.html'
-    if (role === 'admin')   window.location.href = '/analytics.html'
+    if (role === 'student') window.location.href = 'student-report.html'
+    if (role === 'staff')   window.location.href = 'staff-dashboard.html'
+    if (role === 'admin')   window.location.href = 'analytics.html'
   },
 
   getInitials(name) {
